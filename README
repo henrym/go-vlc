@@ -1,0 +1,23 @@
+================================================================================
+ go-vlc
+================================================================================
+
+ This package wraps the libVLC Api for use in your Go programs.
+ The bindings are written for libVLC 1.1.9
+
+ Event callbacks are fully functional.
+
+================================================================================
+ DEPENDENCIES
+================================================================================
+
+ libvlc: http://libvlc.sourceforge.net
+
+================================================================================
+ USAGE
+================================================================================
+
+ $ goinstall github.com/jteeuwen/go-vlc
+
+ The examples folder contains an example program demonstrating the use
+ of this library.
