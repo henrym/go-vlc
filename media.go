@@ -288,7 +288,7 @@ func (this *Media) TrackInfo() ([]*TrackInfo, os.Error) {
 	if size := C.libvlc_media_get_tracks_info(this.ptr, &c); size > 0 {
 		list := make([]*TrackInfo, size)
 		addr := uintptr(unsafe.Pointer(c))
-		sz := unsafe.Sizeof(c)
+		sz := int(unsafe.Sizeof(c))
 
 		for i := range list {
 			list[i] = &TrackInfo{(*C.libvlc_media_track_info_t)(unsafe.Pointer(addr + uintptr(i*sz)))}
