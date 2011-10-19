@@ -68,7 +68,7 @@ func (this *EventManager) Detach(id int) (err os.Error) {
 		return os.EINVAL
 	}
 
-	this.events[id] = nil, false
+	delete(this.events, id)
 	this.m.Unlock()
 
 	C.goDetach(this.ptr, ed.t, unsafe.Pointer(ed))
