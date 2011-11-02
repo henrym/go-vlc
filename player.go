@@ -19,7 +19,7 @@ type Player struct {
 }
 
 // Retain increments the reference count of this player.
-func (this *Player) Retain() (err os.Error) {
+func (this *Player) Retain() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -30,7 +30,7 @@ func (this *Player) Retain() (err os.Error) {
 
 // Release decreases the reference count of the instance and destroys it
 // when it reaches zero.
-func (this *Player) Release() (err os.Error) {
+func (this *Player) Release() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -40,7 +40,7 @@ func (this *Player) Release() (err os.Error) {
 }
 
 // Media returns the media currently associated with this player.
-func (this *Player) Media() (*Media, os.Error) {
+func (this *Player) Media() (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -54,7 +54,7 @@ func (this *Player) Media() (*Media, os.Error) {
 
 // SetMedia sets the new media to be used by this player. If existing media is
 // loaded, it will be destroyed.
-func (this *Player) SetMedia(m *Media) os.Error {
+func (this *Player) SetMedia(m *Media) error {
 	if this.ptr == nil || m.ptr == nil {
 		return os.EINVAL
 	}
@@ -64,7 +64,7 @@ func (this *Player) SetMedia(m *Media) os.Error {
 }
 
 // Events returns an event manager for this player.
-func (this *Player) Events() (*EventManager, os.Error) {
+func (this *Player) Events() (*EventManager, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -85,7 +85,7 @@ func (this *Player) IsPlaying() bool {
 }
 
 // Play begins playback.
-func (this *Player) Play() (err os.Error) {
+func (this *Player) Play() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -99,7 +99,7 @@ func (this *Player) Play() (err os.Error) {
 
 // TogglePause toggles between pause and resume.
 // Has no effect if no media is loaded.
-func (this *Player) TogglePause(pause bool) (err os.Error) {
+func (this *Player) TogglePause(pause bool) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -114,7 +114,7 @@ func (this *Player) TogglePause(pause bool) (err os.Error) {
 
 // Pause pauses playback.
 // Has no effect if no media is loaded.
-func (this *Player) Pause() (err os.Error) {
+func (this *Player) Pause() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -125,7 +125,7 @@ func (this *Player) Pause() (err os.Error) {
 
 // Stop stops playback.
 // Has no effect if no media is loaded.
-func (this *Player) Stop() (err os.Error) {
+func (this *Player) Stop() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -150,7 +150,7 @@ func (this *Player) Stop() (err os.Error) {
 // When the video frame needs to be shown, as determined by the media playback
 // clock, the display callback is invoked. The second parameter also conveys
 // the return value from the lock callback.
-func (this *Player) SetCallbacks(lh LockHandler, uh UnlockHandler, dh DisplayHandler, userdata interface{}) (err os.Error) {
+func (this *Player) SetCallbacks(lh LockHandler, uh UnlockHandler, dh DisplayHandler, userdata interface{}) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -167,7 +167,7 @@ func (this *Player) SetCallbacks(lh LockHandler, uh UnlockHandler, dh DisplayHan
 //
 // Width and height indicate the pixel dimensions and pitch is the line pitch
 // in bytes.
-func (this *Player) SetFormat(chroma string, width, height, pitch uint) os.Error {
+func (this *Player) SetFormat(chroma string, width, height, pitch uint) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -202,7 +202,7 @@ func (this *Player) SetFormat(chroma string, width, height, pitch uint) os.Error
 //     [video release];
 //
 // You can find a live example in VLCVideoView in VLCKit.framework.
-func (this *Player) SetNSObject(drawable uintptr) (err os.Error) {
+func (this *Player) SetNSObject(drawable uintptr) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -212,7 +212,7 @@ func (this *Player) SetNSObject(drawable uintptr) (err os.Error) {
 }
 
 // NSObject returns the NSView handler previously set with Player.SetNSObject().
-func (this *Player) NSObject() (drawable uintptr, err os.Error) {
+func (this *Player) NSObject() (drawable uintptr, err error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -221,7 +221,7 @@ func (this *Player) NSObject() (drawable uintptr, err os.Error) {
 }
 
 // SetAGL set the agl handler where the media player should render its video output.
-func (this *Player) SetAGL(drawable uint32) (err os.Error) {
+func (this *Player) SetAGL(drawable uint32) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -231,7 +231,7 @@ func (this *Player) SetAGL(drawable uint32) (err os.Error) {
 }
 
 // AGL returns the agl handler where the media player should render its video output.
-func (this *Player) AGL() (drawable uint32, err os.Error) {
+func (this *Player) AGL() (drawable uint32, err error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -246,7 +246,7 @@ func (this *Player) AGL() (drawable uint32, err os.Error) {
 // The specified identifier must correspond to an existing Input/Output class X11
 // window. Pixmaps are /not/ supported. The caller shall ensure that the X11
 // server is the same as the one the VLC instance has been configured with.
-func (this *Player) SetXWindow(drawable uint32) (err os.Error) {
+func (this *Player) SetXWindow(drawable uint32) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -258,7 +258,7 @@ func (this *Player) SetXWindow(drawable uint32) (err os.Error) {
 // XWindow returns the X Window System window identifier previously set with
 // Player.SetXWindow(). Note that this will return the identifier even if VLC is
 // not currently using it (for instance if it is playing an audio-only input).
-func (this *Player) XWindow() (drawable uint32, err os.Error) {
+func (this *Player) XWindow() (drawable uint32, err error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -269,7 +269,7 @@ func (this *Player) XWindow() (drawable uint32, err os.Error) {
 // SetHwnd sets a Win32/Win64 API window handle (HWND) where the media player
 // should render its video output. If LibVLC was built without Win32/Win64 API
 // output support, then this has no effects.
-func (this *Player) SetHwnd(drawable uintptr) (err os.Error) {
+func (this *Player) SetHwnd(drawable uintptr) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -281,7 +281,7 @@ func (this *Player) SetHwnd(drawable uintptr) (err os.Error) {
 // Hwnd returns the Windows API window handle (HWND) previously set with
 // Player.SetHwnd(). The handle will be returned even if LibVLC is not currently
 // outputting any video to it.
-func (this *Player) Hwnd() (drawable uintptr, err os.Error) {
+func (this *Player) Hwnd() (drawable uintptr, err error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -290,7 +290,7 @@ func (this *Player) Hwnd() (drawable uintptr, err os.Error) {
 }
 
 // Length returns the current movie length in milliseconds.
-func (this *Player) Length() (int64, os.Error) {
+func (this *Player) Length() (int64, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -298,7 +298,7 @@ func (this *Player) Length() (int64, os.Error) {
 }
 
 // Time returns the current movie time in milliseconds.
-func (this *Player) Time() (int64, os.Error) {
+func (this *Player) Time() (int64, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -314,7 +314,7 @@ func (this *Player) SetTime(v int64) {
 }
 
 // Position returns the current movie position.
-func (this *Player) Position() (float32, os.Error) {
+func (this *Player) Position() (float32, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -330,7 +330,7 @@ func (this *Player) SetPosition(v float32) {
 }
 
 // ChapterCount returns the number of available movie chapters.
-func (this *Player) ChapterCount() (int, os.Error) {
+func (this *Player) ChapterCount() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -338,7 +338,7 @@ func (this *Player) ChapterCount() (int, os.Error) {
 }
 
 // Chapter returns the current movie chapter.
-func (this *Player) Chapter() (int, os.Error) {
+func (this *Player) Chapter() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -362,7 +362,7 @@ func (this *Player) WillPlay() bool {
 }
 
 // TitleChapterCount returns the number of available movie chapters for the given title.
-func (this *Player) TitleChapterCount(title int) (int, os.Error) {
+func (this *Player) TitleChapterCount(title int) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -370,7 +370,7 @@ func (this *Player) TitleChapterCount(title int) (int, os.Error) {
 }
 
 // TitleCount returns the number of available movie titles.
-func (this *Player) TitleCount(title int) (int, os.Error) {
+func (this *Player) TitleCount(title int) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -378,7 +378,7 @@ func (this *Player) TitleCount(title int) (int, os.Error) {
 }
 
 // Title returns the current movie title.
-func (this *Player) Title() (int, os.Error) {
+func (this *Player) Title() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -393,7 +393,7 @@ func (this *Player) SetTitle(v int) {
 }
 
 // PreviousChapter sets the previous chapter if applicable.
-func (this *Player) PreviousChapter() (err os.Error) {
+func (this *Player) PreviousChapter() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -402,7 +402,7 @@ func (this *Player) PreviousChapter() (err os.Error) {
 }
 
 // NextChapter sets the next chapter if applicable.
-func (this *Player) NextChapter() (err os.Error) {
+func (this *Player) NextChapter() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -413,7 +413,7 @@ func (this *Player) NextChapter() (err os.Error) {
 // Rate returns the current movie playback rate.
 // Note: Depending on the underlying media, the requested rate may be
 // different from the real playback rate.
-func (this *Player) Rate() (float32, os.Error) {
+func (this *Player) Rate() (float32, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -421,7 +421,7 @@ func (this *Player) Rate() (float32, os.Error) {
 }
 
 // SetRate sets the requested movie playback rate.
-func (this *Player) SetRate(v float32) os.Error {
+func (this *Player) SetRate(v float32) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -430,7 +430,7 @@ func (this *Player) SetRate(v float32) os.Error {
 }
 
 // State returns the current movie state.
-func (this *Player) State() (MediaState, os.Error) {
+func (this *Player) State() (MediaState, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -438,7 +438,7 @@ func (this *Player) State() (MediaState, os.Error) {
 }
 
 // Fps returns the current movie frame rate.
-func (this *Player) Fps() (float32, os.Error) {
+func (this *Player) Fps() (float32, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -446,7 +446,7 @@ func (this *Player) Fps() (float32, os.Error) {
 }
 
 // OutputCount returns the number of outputs the current media has.
-func (this *Player) OutputCount() (int, os.Error) {
+func (this *Player) OutputCount() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -454,7 +454,7 @@ func (this *Player) OutputCount() (int, os.Error) {
 }
 
 // CanSeek returns whether or not seeking is allowed for the current media.
-func (this *Player) CanSeek() (bool, os.Error) {
+func (this *Player) CanSeek() (bool, error) {
 	if this.ptr == nil {
 		return false, os.EINVAL
 	}
@@ -462,7 +462,7 @@ func (this *Player) CanSeek() (bool, os.Error) {
 }
 
 // CanPause returns whether or not pause/resume is allowed for the current media.
-func (this *Player) CanPause() (bool, os.Error) {
+func (this *Player) CanPause() (bool, error) {
 	if this.ptr == nil {
 		return false, os.EINVAL
 	}
@@ -470,7 +470,7 @@ func (this *Player) CanPause() (bool, os.Error) {
 }
 
 // NextFrame jumps to the next frame if applicable.
-func (this *Player) NextFrame() os.Error {
+func (this *Player) NextFrame() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -482,7 +482,7 @@ func (this *Player) NextFrame() os.Error {
 // non-embedded video outputs.
 //
 // Note: The same limitations apply to this as to Player.SetFullscreen()
-func (this *Player) ToggleFullscreen() os.Error {
+func (this *Player) ToggleFullscreen() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -499,7 +499,7 @@ func (this *Player) ToggleFullscreen() os.Error {
 // In that case, the embedding window must be reparented to the root window
 // /before/ fullscreen mode is enabled. You will want to reparent it back to its
 // normal parent when disabling fullscreen.
-func (this *Player) SetFullscreen(toggle bool) os.Error {
+func (this *Player) SetFullscreen(toggle bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -514,7 +514,7 @@ func (this *Player) SetFullscreen(toggle bool) os.Error {
 }
 
 // Fullscreen returns wether or not we are currently in fullscreen mode.
-func (this *Player) Fullscreen() (bool, os.Error) {
+func (this *Player) Fullscreen() (bool, error) {
 	if this.ptr == nil {
 		return false, os.EINVAL
 	}
@@ -531,7 +531,7 @@ func (this *Player) Fullscreen() (bool, os.Error) {
 // handle key presses and mouse clicks in any case.
 //
 // Note: This function is only implemented for X11 and Win32 at the moment.
-func (this *Player) SetKeyInput(toggle bool) os.Error {
+func (this *Player) SetKeyInput(toggle bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -555,7 +555,7 @@ func (this *Player) SetKeyInput(toggle bool) os.Error {
 // handle key presses and mouse clicks in any case.
 //
 // Note: This function is only implemented for X11 and Win32 at the moment.
-func (this *Player) SetMouseInput(toggle bool) os.Error {
+func (this *Player) SetMouseInput(toggle bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -571,7 +571,7 @@ func (this *Player) SetMouseInput(toggle bool) os.Error {
 
 // Size returns the pixel dimensions of a video.
 // vidnum is the number of the target video. Most commonly starts at 0.
-func (this *Player) Size(vidnum uint) (width, height uint, err os.Error) {
+func (this *Player) Size(vidnum uint) (width, height uint, err error) {
 	if this.ptr == nil {
 		return 0, 0, os.EINVAL
 	}
@@ -597,7 +597,7 @@ func (this *Player) Size(vidnum uint) (width, height uint, err os.Error) {
 // multiple input devices sharing the same pointer) at the moment.
 // 
 // vidnum is the number of the target video. Most commonly starts at 0.
-func (this *Player) Cursor(vidnum uint) (cx, cy int, err os.Error) {
+func (this *Player) Cursor(vidnum uint) (cx, cy int, err error) {
 	if this.ptr == nil {
 		return 0, 0, os.EINVAL
 	}
@@ -612,7 +612,7 @@ func (this *Player) Cursor(vidnum uint) (cx, cy int, err os.Error) {
 // dimension.
 //
 // Note: Not all video outputs support scaling.
-func (this *Player) Scale() (float32, os.Error) {
+func (this *Player) Scale() (float32, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -625,7 +625,7 @@ func (this *Player) Scale() (float32, os.Error) {
 // window/drawable (in windowed mode) or the entire screen.
 //
 // Note: Not all video outputs support scaling.
-func (this *Player) SetScale(v float32) os.Error {
+func (this *Player) SetScale(v float32) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -634,7 +634,7 @@ func (this *Player) SetScale(v float32) os.Error {
 }
 
 // Aspect returns the current aspect ratio.
-func (this *Player) Aspect() (s string, err os.Error) {
+func (this *Player) Aspect() (s string, err error) {
 	if this.ptr == nil {
 		return "", os.EINVAL
 	}
@@ -649,7 +649,7 @@ func (this *Player) Aspect() (s string, err os.Error) {
 }
 
 // SetAspect sets the current aspect ratio.
-func (this *Player) SetAspect(v string) os.Error {
+func (this *Player) SetAspect(v string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -660,7 +660,7 @@ func (this *Player) SetAspect(v string) os.Error {
 }
 
 // SubTile returns the current video subtitle or -1 if none is set.
-func (this *Player) SubTile() (int, os.Error) {
+func (this *Player) SubTile() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -668,7 +668,7 @@ func (this *Player) SubTile() (int, os.Error) {
 }
 
 // SubTileCount returns the number of available subtitles.
-func (this *Player) SubTileCount() (int, os.Error) {
+func (this *Player) SubTileCount() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -678,7 +678,7 @@ func (this *Player) SubTileCount() (int, os.Error) {
 // SubTileDescription returns descriptions for the current subtitle track.
 //
 // Note: make sure to call TrackDescriptionList.Release() when you are done with it.
-func (this *Player) SubTileDescription() (TrackDescriptionList, os.Error) {
+func (this *Player) SubTileDescription() (TrackDescriptionList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -693,7 +693,7 @@ func (this *Player) SubTileDescription() (TrackDescriptionList, os.Error) {
 }
 
 // SetSubtitle sets the current subtitle track.
-func (this *Player) SetSubtitle(s uint) (err os.Error) {
+func (this *Player) SetSubtitle(s uint) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -706,7 +706,7 @@ func (this *Player) SetSubtitle(s uint) (err os.Error) {
 }
 
 // SetSubtitle sets the current subtitle from a file.
-func (this *Player) SetSubtitleFile(path string) (err os.Error) {
+func (this *Player) SetSubtitleFile(path string) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -720,7 +720,7 @@ func (this *Player) SetSubtitleFile(path string) (err os.Error) {
 // ChapterDescription returns descriptions of available chapters for a specific title.
 //
 // Note: make sure to call TrackDescriptionList.Release() when you are done with it.
-func (this *Player) ChapterDescription(title int) (TrackDescriptionList, os.Error) {
+func (this *Player) ChapterDescription(title int) (TrackDescriptionList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -735,7 +735,7 @@ func (this *Player) ChapterDescription(title int) (TrackDescriptionList, os.Erro
 }
 
 // CropGeometry returns the current crop filter geometry.
-func (this *Player) CropGeometry() (s string, err os.Error) {
+func (this *Player) CropGeometry() (s string, err error) {
 	if this.ptr == nil {
 		return "", os.EINVAL
 	}
@@ -750,7 +750,7 @@ func (this *Player) CropGeometry() (s string, err os.Error) {
 
 // SetCropGeometry sets the current crop filter geometry. Specify an empty
 // string to clear the filter.
-func (this *Player) SetCropGeometry(s string) (err os.Error) {
+func (this *Player) SetCropGeometry(s string) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -767,7 +767,7 @@ func (this *Player) SetCropGeometry(s string) (err os.Error) {
 }
 
 // Teletext returns the current requested teletext page.
-func (this *Player) Teletext() (int, os.Error) {
+func (this *Player) Teletext() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -775,7 +775,7 @@ func (this *Player) Teletext() (int, os.Error) {
 }
 
 // SetTeletext sets a new teletext page to retrieve.
-func (this *Player) SetTeletext(page int) os.Error {
+func (this *Player) SetTeletext(page int) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -785,7 +785,7 @@ func (this *Player) SetTeletext(page int) os.Error {
 }
 
 // ToggleTeletext toggles transparent teletext status on video output.
-func (this *Player) ToggleTeletext() os.Error {
+func (this *Player) ToggleTeletext() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -795,7 +795,7 @@ func (this *Player) ToggleTeletext() os.Error {
 }
 
 // VideoTrackCount returns the number of video tracks in the current media.
-func (this *Player) VideoTrackCount() (int, os.Error) {
+func (this *Player) VideoTrackCount() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -805,7 +805,7 @@ func (this *Player) VideoTrackCount() (int, os.Error) {
 // VideoDescription returns descriptions for the current video tracks.
 //
 // Note: make sure to call TrackDescriptionList.Release() when you are done with it.
-func (this *Player) VideoDescription() (TrackDescriptionList, os.Error) {
+func (this *Player) VideoDescription() (TrackDescriptionList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -820,7 +820,7 @@ func (this *Player) VideoDescription() (TrackDescriptionList, os.Error) {
 }
 
 // VideoTrack returns the current video track.
-func (this *Player) VideoTrack() (int, os.Error) {
+func (this *Player) VideoTrack() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -828,7 +828,7 @@ func (this *Player) VideoTrack() (int, os.Error) {
 }
 
 // SetVideoTrack sets the current video track.
-func (this *Player) SetVideoTrack(track int) (err os.Error) {
+func (this *Player) SetVideoTrack(track int) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -847,7 +847,7 @@ func (this *Player) SetVideoTrack(track int) (err os.Error) {
 // If width OR height is 0, the original aspect ratio is preserved.
 //
 // Vidnum is the number of the video output (typically 0 for the first/only one)
-func (this *Player) TakeSnapshot(path string, vidnum, width, height uint) (err os.Error) {
+func (this *Player) TakeSnapshot(path string, vidnum, width, height uint) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -864,7 +864,7 @@ func (this *Player) TakeSnapshot(path string, vidnum, width, height uint) (err o
 
 // SetDeinterlace sets the deinterlace filter. Supply an empty string to disable
 // the filter.
-func (this *Player) SetDeinterlace(f string) (err os.Error) {
+func (this *Player) SetDeinterlace(f string) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -880,7 +880,7 @@ func (this *Player) SetDeinterlace(f string) (err os.Error) {
 }
 
 // MarqueeOption returns an integer marquee option value.
-func (this *Player) MarqueeOption(option MarqueeOption) (int, os.Error) {
+func (this *Player) MarqueeOption(option MarqueeOption) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -888,7 +888,7 @@ func (this *Player) MarqueeOption(option MarqueeOption) (int, os.Error) {
 }
 
 // SetMarqueeOption sets an integer marquee option value.
-func (this *Player) SetMarqueeOption(option MarqueeOption, v int) os.Error {
+func (this *Player) SetMarqueeOption(option MarqueeOption, v int) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -897,7 +897,7 @@ func (this *Player) SetMarqueeOption(option MarqueeOption, v int) os.Error {
 }
 
 // MarqueeOptionString returns a string marquee option value.
-func (this *Player) MarqueeOptionString(option MarqueeOption) (s string, err os.Error) {
+func (this *Player) MarqueeOptionString(option MarqueeOption) (s string, err error) {
 	if this.ptr == nil {
 		return "", os.EINVAL
 	}
@@ -911,7 +911,7 @@ func (this *Player) MarqueeOptionString(option MarqueeOption) (s string, err os.
 }
 
 // SetMarqueeOptionString sets a string marquee option value.
-func (this *Player) SetMarqueeOptionString(option MarqueeOption, s string) os.Error {
+func (this *Player) SetMarqueeOptionString(option MarqueeOption, s string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -922,7 +922,7 @@ func (this *Player) SetMarqueeOptionString(option MarqueeOption, s string) os.Er
 }
 
 // LogoOption returns an integer logo option.
-func (this *Player) LogoOption(option LogoOption) (int, os.Error) {
+func (this *Player) LogoOption(option LogoOption) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -933,7 +933,7 @@ func (this *Player) LogoOption(option LogoOption) (int, os.Error) {
 // Options that take a different type value are ignored.
 // Passing LOEnable as option value has the side effect of starting (arg !0) or
 // stopping (arg 0) the logo filter.
-func (this *Player) SetLogoOption(option MarqueeOption, v int) os.Error {
+func (this *Player) SetLogoOption(option MarqueeOption, v int) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -942,7 +942,7 @@ func (this *Player) SetLogoOption(option MarqueeOption, v int) os.Error {
 }
 
 // SetLogoOptionString sets a string logo option value.
-func (this *Player) SetLogoOptionString(option LogoOption, s string) os.Error {
+func (this *Player) SetLogoOptionString(option LogoOption, s string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -953,7 +953,7 @@ func (this *Player) SetLogoOptionString(option LogoOption, s string) os.Error {
 }
 
 // AdjustOption returns an integer adjustment option.
-func (this *Player) AdjustOption(option AdjustOption) (int, os.Error) {
+func (this *Player) AdjustOption(option AdjustOption) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -964,7 +964,7 @@ func (this *Player) AdjustOption(option AdjustOption) (int, os.Error) {
 // Options that take a different type value are ignored.
 // Passing AOEnable as option value has the side effect of starting (arg !0) or
 // stopping (arg 0) the logo filter.
-func (this *Player) SetAdjustOption(option AdjustOption, v int) os.Error {
+func (this *Player) SetAdjustOption(option AdjustOption, v int) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -973,7 +973,7 @@ func (this *Player) SetAdjustOption(option AdjustOption, v int) os.Error {
 }
 
 // AdjustOptionFloat returns a float adjustment option.
-func (this *Player) AdjustOptionFloat(option AdjustOption) (float32, os.Error) {
+func (this *Player) AdjustOptionFloat(option AdjustOption) (float32, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -982,7 +982,7 @@ func (this *Player) AdjustOptionFloat(option AdjustOption) (float32, os.Error) {
 
 // SetAdjustOptionFloat sets a float adjustment option value.
 // Options that take a different type value are ignored.
-func (this *Player) SetAdjustOptionFloat(option AdjustOption, v float32) os.Error {
+func (this *Player) SetAdjustOptionFloat(option AdjustOption, v float32) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -993,7 +993,7 @@ func (this *Player) SetAdjustOptionFloat(option AdjustOption, v float32) os.Erro
 // AudioOutput returns a list of available audio outputs.
 //
 // Note: Be sure to call AudioOutputList.Release() after you are done with the list.
-func (this *Player) AudioOutput() (AudioOutputList, os.Error) {
+func (this *Player) AudioOutput() (AudioOutputList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -1009,7 +1009,7 @@ func (this *Player) AudioOutput() (AudioOutputList, os.Error) {
 
 // SetAudioOutput sets the current audio output. Changes will be applied after
 // stop and play.
-func (this *Player) SetAudioOutput(output string) (err os.Error) {
+func (this *Player) SetAudioOutput(output string) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1026,7 +1026,7 @@ func (this *Player) SetAudioOutput(output string) (err os.Error) {
 
 // AudioDeviceCount returns the number of devices for audio output. These devices
 // are hardware oriented like analog or digital output of sound cards.
-func (this *Player) AudioDeviceCount(output string) (int, os.Error) {
+func (this *Player) AudioDeviceCount(output string) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -1038,7 +1038,7 @@ func (this *Player) AudioDeviceCount(output string) (int, os.Error) {
 
 // AudioDeviceName returns the long name of an audio device.
 // If it is not available, the short name is given.
-func (this *Player) AudioDeviceName(output string, device int) (s string, err os.Error) {
+func (this *Player) AudioDeviceName(output string, device int) (s string, err error) {
 	if this.ptr == nil {
 		return "", os.EINVAL
 	}
@@ -1056,7 +1056,7 @@ func (this *Player) AudioDeviceName(output string, device int) (s string, err os
 }
 
 // AudioDeviceId returns the id of an audio device.
-func (this *Player) AudioDeviceId(output string, device int) (s string, err os.Error) {
+func (this *Player) AudioDeviceId(output string, device int) (s string, err error) {
 	if this.ptr == nil {
 		return "", os.EINVAL
 	}
@@ -1075,7 +1075,7 @@ func (this *Player) AudioDeviceId(output string, device int) (s string, err os.E
 
 // SetAudioDevice sets the current audio output device. Changes will be applied after
 // stop and play.
-func (this *Player) SetAudioDevice(output, deviceid string) (err os.Error) {
+func (this *Player) SetAudioDevice(output, deviceid string) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1091,7 +1091,7 @@ func (this *Player) SetAudioDevice(output, deviceid string) (err os.Error) {
 // AudioDeviceType return the current audio device type.
 // Device type describes something like character of output sound - stereo
 // sound, 2.1, 5.1 etc
-func (this *Player) AudioDeviceType() (AudioDevice, os.Error) {
+func (this *Player) AudioDeviceType() (AudioDevice, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -1102,7 +1102,7 @@ func (this *Player) AudioDeviceType() (AudioDevice, os.Error) {
 // SetAudioDeviceType sets the current audio device type.
 // Device type describes something like character of output sound - stereo
 // sound, 2.1, 5.1 etc
-func (this *Player) SetAudioDeviceType(ad AudioDevice) os.Error {
+func (this *Player) SetAudioDeviceType(ad AudioDevice) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1112,7 +1112,7 @@ func (this *Player) SetAudioDeviceType(ad AudioDevice) os.Error {
 }
 
 // ToggleMute toggles the current mute status.
-func (this *Player) ToggleMute() os.Error {
+func (this *Player) ToggleMute() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1121,7 +1121,7 @@ func (this *Player) ToggleMute() os.Error {
 }
 
 // IsMute returns whether or not mute is enabled.
-func (this *Player) IsMute() (bool, os.Error) {
+func (this *Player) IsMute() (bool, error) {
 	if this.ptr == nil {
 		return false, os.EINVAL
 	}
@@ -1129,7 +1129,7 @@ func (this *Player) IsMute() (bool, os.Error) {
 }
 
 // SetMute sets mute mode to the specified value.
-func (this *Player) SetMute(toggle bool) os.Error {
+func (this *Player) SetMute(toggle bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1144,7 +1144,7 @@ func (this *Player) SetMute(toggle bool) os.Error {
 }
 
 // Volume returns the current audio level.
-func (this *Player) Volume() (int, os.Error) {
+func (this *Player) Volume() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -1152,7 +1152,7 @@ func (this *Player) Volume() (int, os.Error) {
 }
 
 // SetVolume sets the current audio level.
-func (this *Player) SetVolume(v int) os.Error {
+func (this *Player) SetVolume(v int) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1162,7 +1162,7 @@ func (this *Player) SetVolume(v int) os.Error {
 }
 
 // AudioTrackCount returns the number of available audio tracks.
-func (this *Player) AudioTrackCount() (int, os.Error) {
+func (this *Player) AudioTrackCount() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -1172,7 +1172,7 @@ func (this *Player) AudioTrackCount() (int, os.Error) {
 // AudioDescription returns descriptions for the current audio tracks.
 //
 // Note: make sure to call TrackDescriptionList.Release() when you are done with it.
-func (this *Player) AudioDescription() (TrackDescriptionList, os.Error) {
+func (this *Player) AudioDescription() (TrackDescriptionList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -1187,7 +1187,7 @@ func (this *Player) AudioDescription() (TrackDescriptionList, os.Error) {
 }
 
 // AudioTrack returns the current audio track.
-func (this *Player) AudioTrack() (int, os.Error) {
+func (this *Player) AudioTrack() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -1195,7 +1195,7 @@ func (this *Player) AudioTrack() (int, os.Error) {
 }
 
 // SetAudioTrack sets the current audio track.
-func (this *Player) SetAudioTrack(track int) (err os.Error) {
+func (this *Player) SetAudioTrack(track int) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1208,7 +1208,7 @@ func (this *Player) SetAudioTrack(track int) (err os.Error) {
 }
 
 // AudioChannel returns the current audio channel.
-func (this *Player) AudioChannel() (int, os.Error) {
+func (this *Player) AudioChannel() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -1216,7 +1216,7 @@ func (this *Player) AudioChannel() (int, os.Error) {
 }
 
 // SetAudioChannel sets the current audio channel.
-func (this *Player) SetAudioChannel(channel int) (err os.Error) {
+func (this *Player) SetAudioChannel(channel int) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -1229,7 +1229,7 @@ func (this *Player) SetAudioChannel(channel int) (err os.Error) {
 }
 
 // AudioDelay returns the current audio delay.
-func (this *Player) AudioDelay() (int64, os.Error) {
+func (this *Player) AudioDelay() (int64, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -1237,7 +1237,7 @@ func (this *Player) AudioDelay() (int64, os.Error) {
 }
 
 // SetAudioDelay sets the current audio delay.
-func (this *Player) SetAudioDelay(delay int64) (err os.Error) {
+func (this *Player) SetAudioDelay(delay int64) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}

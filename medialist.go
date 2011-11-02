@@ -16,7 +16,7 @@ type MediaList struct {
 }
 
 // Retain increments the reference count of this MediaList instance.
-func (this *MediaList) Retain() os.Error {
+func (this *MediaList) Retain() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -27,7 +27,7 @@ func (this *MediaList) Retain() os.Error {
 
 // Release cleans up any memory used by this list and decrements the
 // reference counter for the Media instance this came from.
-func (this *MediaList) Release() os.Error {
+func (this *MediaList) Release() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -41,7 +41,7 @@ func (this *MediaList) Release() os.Error {
 // If another media instance was present it will be released.
 //
 // Note: MediaList.Lock() should NOT be held upon entering this function.
-func (this *MediaList) Set(m *Media) os.Error {
+func (this *MediaList) Set(m *Media) error {
 	if this.ptr == nil || m.ptr == nil {
 		return os.EINVAL
 	}
@@ -54,7 +54,7 @@ func (this *MediaList) Set(m *Media) os.Error {
 // This action will increase the reference count on the media instance.
 //
 // Note: MediaList.Lock() should NOT be held upon entering this function.
-func (this *MediaList) Get() (*Media, os.Error) {
+func (this *MediaList) Get() (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -69,7 +69,7 @@ func (this *MediaList) Get() (*Media, os.Error) {
 // Add adds a media instance to this list.
 //
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
-func (this *MediaList) Add(m *Media) os.Error {
+func (this *MediaList) Add(m *Media) error {
 	if this.ptr == nil || m.ptr == nil {
 		return os.EINVAL
 	}
@@ -81,7 +81,7 @@ func (this *MediaList) Add(m *Media) os.Error {
 // Insert adds a media instance to the list at the given position.
 //
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
-func (this *MediaList) Insert(m *Media, pos int) os.Error {
+func (this *MediaList) Insert(m *Media, pos int) error {
 	if this.ptr == nil || m.ptr == nil {
 		return os.EINVAL
 	}
@@ -93,7 +93,7 @@ func (this *MediaList) Insert(m *Media, pos int) os.Error {
 // Remove removes a media instance at the given position from the list.
 //
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
-func (this *MediaList) Remove(pos int) os.Error {
+func (this *MediaList) Remove(pos int) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -105,7 +105,7 @@ func (this *MediaList) Remove(pos int) os.Error {
 // Count returns the number if items in the list.
 //
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
-func (this *MediaList) Count() (int, os.Error) {
+func (this *MediaList) Count() (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -117,7 +117,7 @@ func (this *MediaList) Count() (int, os.Error) {
 // This action will increase the reference count on the media instance.
 //
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
-func (this *MediaList) At(pos int) (*Media, os.Error) {
+func (this *MediaList) At(pos int) (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -132,7 +132,7 @@ func (this *MediaList) At(pos int) (*Media, os.Error) {
 // Index returns the position of the given media in the list.
 //
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
-func (this *MediaList) Index(m *Media) (int, os.Error) {
+func (this *MediaList) Index(m *Media) (int, error) {
 	if this.ptr == nil || m.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -141,7 +141,7 @@ func (this *MediaList) Index(m *Media) (int, os.Error) {
 }
 
 // IsReadOnly returns true if this list is readonly for a user.
-func (this *MediaList) IsReadOnly() (bool, os.Error) {
+func (this *MediaList) IsReadOnly() (bool, error) {
 	if this.ptr == nil {
 		return false, os.EINVAL
 	}
@@ -149,7 +149,7 @@ func (this *MediaList) IsReadOnly() (bool, os.Error) {
 }
 
 // Lock gets a lock on the list items.
-func (this *MediaList) Lock() os.Error {
+func (this *MediaList) Lock() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -158,7 +158,7 @@ func (this *MediaList) Lock() os.Error {
 }
 
 // Unlock removes a lock on the list items.
-func (this *MediaList) Unlock() os.Error {
+func (this *MediaList) Unlock() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -167,7 +167,7 @@ func (this *MediaList) Unlock() os.Error {
 }
 
 // Events returns an Eventmanager for this list.
-func (this *MediaList) Events() (*EventManager, os.Error) {
+func (this *MediaList) Events() (*EventManager, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}

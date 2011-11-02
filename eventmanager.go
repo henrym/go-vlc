@@ -35,7 +35,7 @@ func NewEventManager(p *C.libvlc_event_manager_t) *EventManager {
 
 // Attach registers the given event handler and returns a unique id
 // we can use to detach the event at a later point.
-func (this *EventManager) Attach(et EventType, cb EventHandler, userdata interface{}) (id int, err os.Error) {
+func (this *EventManager) Attach(et EventType, cb EventHandler, userdata interface{}) (id int, err error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -54,7 +54,7 @@ func (this *EventManager) Attach(et EventType, cb EventHandler, userdata interfa
 }
 
 // Detach unregisters the given event id.
-func (this *EventManager) Detach(id int) (err os.Error) {
+func (this *EventManager) Detach(id int) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}

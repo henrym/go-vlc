@@ -17,7 +17,7 @@ type ListPlayer struct {
 }
 
 // Release decreases the reference count of the instance and destroys it when it reaches zero.
-func (this *ListPlayer) Release() (err os.Error) {
+func (this *ListPlayer) Release() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -27,7 +27,7 @@ func (this *ListPlayer) Release() (err os.Error) {
 }
 
 // Events returns an Eventmanager for this player.
-func (this *ListPlayer) Events() (*EventManager, os.Error) {
+func (this *ListPlayer) Events() (*EventManager, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -40,7 +40,7 @@ func (this *ListPlayer) Events() (*EventManager, os.Error) {
 }
 
 // Replace replaces the Player instance in this listplayer with a new one.
-func (this *ListPlayer) Replace(p *Player) os.Error {
+func (this *ListPlayer) Replace(p *Player) error {
 	if this.ptr == nil || p.ptr == nil {
 		return os.EINVAL
 	}
@@ -50,7 +50,7 @@ func (this *ListPlayer) Replace(p *Player) os.Error {
 }
 
 // Set sets the MediaList associated with this player.
-func (this *ListPlayer) Set(l *MediaList) os.Error {
+func (this *ListPlayer) Set(l *MediaList) error {
 	if this.ptr == nil || l.ptr == nil {
 		return os.EINVAL
 	}
@@ -60,7 +60,7 @@ func (this *ListPlayer) Set(l *MediaList) os.Error {
 }
 
 // Play plays the entries in the media list.
-func (this *ListPlayer) Play() os.Error {
+func (this *ListPlayer) Play() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -70,7 +70,7 @@ func (this *ListPlayer) Play() os.Error {
 }
 
 // Pause pauses playback.
-func (this *ListPlayer) Pause() os.Error {
+func (this *ListPlayer) Pause() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -80,7 +80,7 @@ func (this *ListPlayer) Pause() os.Error {
 }
 
 // IsPlaying returns true if the player is currently playing.
-func (this *ListPlayer) IsPlaying() (bool, os.Error) {
+func (this *ListPlayer) IsPlaying() (bool, error) {
 	if this.ptr == nil {
 		return false, os.EINVAL
 	}
@@ -88,7 +88,7 @@ func (this *ListPlayer) IsPlaying() (bool, os.Error) {
 }
 
 // State returns the current media state.
-func (this *ListPlayer) State() (MediaState, os.Error) {
+func (this *ListPlayer) State() (MediaState, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -96,7 +96,7 @@ func (this *ListPlayer) State() (MediaState, os.Error) {
 }
 
 // PlayAt plays the entry at the given list index.
-func (this *ListPlayer) PlayAt(pos int) os.Error {
+func (this *ListPlayer) PlayAt(pos int) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -108,7 +108,7 @@ func (this *ListPlayer) PlayAt(pos int) os.Error {
 // PlayItem plays the given entry.
 //
 // Note: The supplied Media must be part of this list.
-func (this *ListPlayer) PlayItem(m *Media) os.Error {
+func (this *ListPlayer) PlayItem(m *Media) error {
 	if this.ptr == nil || m.ptr == nil {
 		return os.EINVAL
 	}
@@ -118,7 +118,7 @@ func (this *ListPlayer) PlayItem(m *Media) os.Error {
 }
 
 // Stop halts playback.
-func (this *ListPlayer) Stop() os.Error {
+func (this *ListPlayer) Stop() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -128,7 +128,7 @@ func (this *ListPlayer) Stop() os.Error {
 }
 
 // Next plays the next item in the list if applicable.
-func (this *ListPlayer) Next() os.Error {
+func (this *ListPlayer) Next() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -138,7 +138,7 @@ func (this *ListPlayer) Next() os.Error {
 }
 
 // Prev plays the previous item in the list if applicable.
-func (this *ListPlayer) Prev() os.Error {
+func (this *ListPlayer) Prev() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -149,7 +149,7 @@ func (this *ListPlayer) Prev() os.Error {
 
 // SetMode sets the current playback mode.
 // Any of: PMDefault, PMLoop or PMRepeat.
-func (this *ListPlayer) SetMode(pm PlaybackMode) os.Error {
+func (this *ListPlayer) SetMode(pm PlaybackMode) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}

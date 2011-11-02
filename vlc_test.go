@@ -13,11 +13,11 @@ import (
 func Test(t *testing.T) {
 	fmt.Printf("VLC Version: %s\n", VersionString())
 
-	var err os.Error
+	var err error
 	var inst *Instance
 
 	if inst, err = New(os.Args); err != nil {
-		t.Error(err.String())
+		t.Error(err.Error())
 		return
 	}
 

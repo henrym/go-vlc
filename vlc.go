@@ -13,7 +13,7 @@ package vlc
 // #include "glue.h"
 import "C"
 import (
-	"os"
+	"errors"
 	"unsafe"
 )
 
@@ -48,9 +48,9 @@ func ChangeSet() string { return C.GoString(C.libvlc_get_changeset()) }
 
 // checkError checks if there is a new error message available. If so, return
 // it as an os.Error. For internal use only.
-func checkError() (err os.Error) {
+func checkError() (err error) {
 	if c := C.libvlc_errmsg(); c != nil {
-		err = os.NewError(C.GoString(c))
+		err = errors.New(C.GoString(c))
 		C.free(unsafe.Pointer(c))
 	}
 	return

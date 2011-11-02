@@ -23,7 +23,7 @@ func main() {
 	var player *vlc.Player
 	var media *vlc.Media
 	var evt *vlc.EventManager
-	var err os.Error
+	var err error
 
 	// Load the VLC engine. 
 	if inst, err = vlc.New(os.Args); err != nil {

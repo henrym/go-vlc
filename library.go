@@ -16,7 +16,7 @@ type Library struct {
 }
 
 // Retain increments the reference count of the instance.
-func (this *Library) Retain() (err os.Error) {
+func (this *Library) Retain() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -25,7 +25,7 @@ func (this *Library) Retain() (err os.Error) {
 }
 
 // Release decreases the reference count of the instance and destroys it when it reaches zero.
-func (this *Library) Release() (err os.Error) {
+func (this *Library) Release() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -35,7 +35,7 @@ func (this *Library) Release() (err os.Error) {
 }
 
 // Load loads the library contents.
-func (this *Library) Load() os.Error {
+func (this *Library) Load() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -44,7 +44,7 @@ func (this *Library) Load() os.Error {
 }
 
 // Items returns a list of all the media items in this library.
-func (this *Library) Items() (*MediaList, os.Error) {
+func (this *Library) Items() (*MediaList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}

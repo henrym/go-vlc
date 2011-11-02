@@ -16,7 +16,7 @@ type Media struct {
 }
 
 // Retain increments the reference count of this Media instance.
-func (this *Media) Retain() (err os.Error) {
+func (this *Media) Retain() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -28,7 +28,7 @@ func (this *Media) Retain() (err os.Error) {
 // Release decreases the reference count of this Media instance and destroys it
 // when it reaches zero. It will send out a MediaFreed event to all listeners.
 // If the media descriptor object has been released it should not be used again.
-func (this *Media) Release() (err os.Error) {
+func (this *Media) Release() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -38,7 +38,7 @@ func (this *Media) Release() (err os.Error) {
 }
 
 // Duplicate duplicates the media object.
-func (this *Media) Duplicate() (*Media, os.Error) {
+func (this *Media) Duplicate() (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -57,7 +57,7 @@ func (this *Media) Duplicate() (*Media, os.Error) {
 // per-media basis.
 //
 // The options are detailed in vlc --full-help, for instance "--sout-all"
-func (this *Media) AddOption(options string) os.Error {
+func (this *Media) AddOption(options string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -76,7 +76,7 @@ func (this *Media) AddOption(options string) os.Error {
 // per-media basis.
 //
 // The options are detailed in vlc --full-help, for instance "--sout-all"
-func (this *Media) AddOptionFlag(options string, flags uint32) os.Error {
+func (this *Media) AddOptionFlag(options string, flags uint32) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -135,7 +135,7 @@ func (this *Media) SetMeta(mp MetaProperty, v string) {
 }
 
 // SaveMeta saves the previously changed metadata.
-func (this *Media) SaveMeta() (err os.Error) {
+func (this *Media) SaveMeta() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -156,7 +156,7 @@ func (this *Media) State() MediaState {
 }
 
 // Stats returns media statistics.
-func (this *Media) Stats() (*Stats, os.Error) {
+func (this *Media) Stats() (*Stats, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -173,7 +173,7 @@ func (this *Media) Stats() (*Stats, os.Error) {
 // SubItems returns subitems of this media instance. This will increment
 // the reference count of this media instance. Use MediaList.Release() to
 // decrement the reference count.
-func (this *Media) SubItems() (*MediaList, os.Error) {
+func (this *Media) SubItems() (*MediaList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -187,7 +187,7 @@ func (this *Media) SubItems() (*MediaList, os.Error) {
 
 // Events returns an event manager for this media instance.
 // Note: This method does not increment the media reference count.
-func (this *Media) Events() (*EventManager, os.Error) {
+func (this *Media) Events() (*EventManager, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -279,7 +279,7 @@ func (this *Media) SetUserData(v interface{}) {
 //
 // This is very likely to change in next release, and will be done at the
 // parsing phase instead.
-func (this *Media) TrackInfo() ([]*TrackInfo, os.Error) {
+func (this *Media) TrackInfo() ([]*TrackInfo, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -303,7 +303,7 @@ func (this *Media) TrackInfo() ([]*TrackInfo, os.Error) {
 // NewPlayer a media player from this media instance.
 // After creating the player, you can destroy this Media instance, unless you
 // really need it for something. It is not necessary to perform actual playback.
-func (this *Media) NewPlayer() (*Player, os.Error) {
+func (this *Media) NewPlayer() (*Player, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}

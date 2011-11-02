@@ -25,7 +25,7 @@ func (this *Discoverer) Release() {
 }
 
 // LocalizedName return the localzied discovery service name.
-func (this *Discoverer) LocalizedName() (s string, err os.Error) {
+func (this *Discoverer) LocalizedName() (s string, err error) {
 	if this.ptr != nil {
 		return "", os.EINVAL
 	}
@@ -40,7 +40,7 @@ func (this *Discoverer) LocalizedName() (s string, err os.Error) {
 }
 
 // MediaList returns a list of media items.
-func (this *Discoverer) MediaList() (m *MediaList, err os.Error) {
+func (this *Discoverer) MediaList() (m *MediaList, err error) {
 	if this.ptr != nil {
 		return nil, os.EINVAL
 	}
@@ -54,7 +54,7 @@ func (this *Discoverer) MediaList() (m *MediaList, err os.Error) {
 
 // Events returns an event manager for this instance.
 // Note: This method does not increment the media reference count.
-func (this *Discoverer) Events() (*EventManager, os.Error) {
+func (this *Discoverer) Events() (*EventManager, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -67,7 +67,7 @@ func (this *Discoverer) Events() (*EventManager, os.Error) {
 }
 
 // IsRunning returns true if the discovery service is currently running.
-func (this *Discoverer) IsRunning() (bool, os.Error) {
+func (this *Discoverer) IsRunning() (bool, error) {
 	if this.ptr == nil {
 		return false, os.EINVAL
 	}

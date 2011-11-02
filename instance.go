@@ -18,7 +18,7 @@ type Instance struct {
 
 // New creates and initializes a new VLC instance with the given parameters.
 // Returns nil and a possible error if no instance could be created.
-func New(argv []string) (i *Instance, err os.Error) {
+func New(argv []string) (i *Instance, err error) {
 	cstr := make([]*C.char, len(argv))
 
 	for i := range cstr {
@@ -39,7 +39,7 @@ func New(argv []string) (i *Instance, err os.Error) {
 
 // Retain increments the reference count of the Instance.
 // The initial reference count is 1 after vlc.New() returns.
-func (this *Instance) Retain() (err os.Error) {
+func (this *Instance) Retain() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -50,7 +50,7 @@ func (this *Instance) Retain() (err os.Error) {
 
 // Release decreases the reference count of the instance and destroys it
 // when it reaches zero.
-func (this *Instance) Release() (err os.Error) {
+func (this *Instance) Release() (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -61,7 +61,7 @@ func (this *Instance) Release() (err os.Error) {
 
 // StartUI tries to start a user interface for the Instance.
 // Specify an empty name to use the default.
-func (this *Instance) StartUI(name string) (err os.Error) {
+func (this *Instance) StartUI(name string) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -79,7 +79,7 @@ func (this *Instance) StartUI(name string) (err os.Error) {
 // SetName sets the human-readable application name (e.g. "FooBar player 1.2.3")
 // and user-agent name (e.g. "FooBar/1.2.3 Python/2.6.0"). LibVLC passes this as
 // the user agent string when a protocol requires it.
-func (this *Instance) SetName(appname, httpname string) (err os.Error) {
+func (this *Instance) SetName(appname, httpname string) (err error) {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -96,7 +96,7 @@ func (this *Instance) SetName(appname, httpname string) (err os.Error) {
 
 // Wait waits until an interface causes the instance to exit.
 // You should start at least one interface first, using Instance.StartUI().
-func (this *Instance) Wait() os.Error {
+func (this *Instance) Wait() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -121,7 +121,7 @@ func (this *Instance) SetLogVerbosity(v uint) {
 }
 
 // OpenLog opens a VLC message log instance.
-func (this *Instance) OpenLog() (*Log, os.Error) {
+func (this *Instance) OpenLog() (*Log, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -136,7 +136,7 @@ func (this *Instance) OpenLog() (*Log, os.Error) {
 }
 
 // OpenMediaUri loads a media instance from the given uri.
-func (this *Instance) OpenMediaUri(uri string) (*Media, os.Error) {
+func (this *Instance) OpenMediaUri(uri string) (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -152,7 +152,7 @@ func (this *Instance) OpenMediaUri(uri string) (*Media, os.Error) {
 }
 
 // OpenMediaFile loads a media instance from the given filesystem path.
-func (this *Instance) OpenMediaFile(path string) (*Media, os.Error) {
+func (this *Instance) OpenMediaFile(path string) (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -181,7 +181,7 @@ func (this *Instance) OpenMediaFile(path string) (*Media, os.Error) {
 // under any circumstance. Nevertheless, a file descriptor can usually only be
 // rendered once in a media player. To render it a second time, the file
 // descriptor should probably be rewound to the beginning with lseek().
-func (this *Instance) OpenMediaFd(fd int) (*Media, os.Error) {
+func (this *Instance) OpenMediaFd(fd int) (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -194,7 +194,7 @@ func (this *Instance) OpenMediaFd(fd int) (*Media, os.Error) {
 }
 
 // OpenMediaNode creates a media instance as an empty node with a given name.
-func (this *Instance) OpenMediaNode(name string) (*Media, os.Error) {
+func (this *Instance) OpenMediaNode(name string) (*Media, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -210,7 +210,7 @@ func (this *Instance) OpenMediaNode(name string) (*Media, os.Error) {
 }
 
 // NewPlayer creates an empty media player object.
-func (this *Instance) NewPlayer() (*Player, os.Error) {
+func (this *Instance) NewPlayer() (*Player, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -223,7 +223,7 @@ func (this *Instance) NewPlayer() (*Player, os.Error) {
 }
 
 // NewList creates and initializes a new media list.
-func (this *Instance) NewList() (*MediaList, os.Error) {
+func (this *Instance) NewList() (*MediaList, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -236,7 +236,7 @@ func (this *Instance) NewList() (*MediaList, os.Error) {
 }
 
 // NewListPlayer creates an empty media list player object.
-func (this *Instance) NewListPlayer() (*ListPlayer, os.Error) {
+func (this *Instance) NewListPlayer() (*ListPlayer, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -249,7 +249,7 @@ func (this *Instance) NewListPlayer() (*ListPlayer, os.Error) {
 }
 
 // NewLibrary creates an empty media library.
-func (this *Instance) NewLibrary() (*Library, os.Error) {
+func (this *Instance) NewLibrary() (*Library, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -262,7 +262,7 @@ func (this *Instance) NewLibrary() (*Library, os.Error) {
 }
 
 // Discoverer creates a new discover media service by name.
-func (this *Instance) Discoverer(name string) (*Discoverer, os.Error) {
+func (this *Instance) Discoverer(name string) (*Discoverer, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}
@@ -278,7 +278,7 @@ func (this *Instance) Discoverer(name string) (*Discoverer, os.Error) {
 }
 
 // VlmRelease releases the vlm instance associated with this instance.
-func (this *Instance) VlmRelease() os.Error {
+func (this *Instance) VlmRelease() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -296,7 +296,7 @@ func (this *Instance) VlmRelease() os.Error {
 //     enabled: Enable the new broadcast?
 //     loop: Should this broadcast be played in loop?
 //
-func (this *Instance) VlmAddBroadcast(name, input, output string, options []string, enabled, loop bool) os.Error {
+func (this *Instance) VlmAddBroadcast(name, input, output string, options []string, enabled, loop bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -341,7 +341,7 @@ func (this *Instance) VlmAddBroadcast(name, input, output string, options []stri
 //     mux: The muxer of the vod media.
 //     enabled: Enable the new broadcast?
 //
-func (this *Instance) VlmAddVOD(name, input, output, mux string, options []string, enabled bool) os.Error {
+func (this *Instance) VlmAddVOD(name, input, output, mux string, options []string, enabled bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -376,7 +376,7 @@ func (this *Instance) VlmAddVOD(name, input, output, mux string, options []strin
 }
 
 // VlmDelete deletes the given media (VOD or broadcast).
-func (this *Instance) VlmDelete(name string) os.Error {
+func (this *Instance) VlmDelete(name string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -389,7 +389,7 @@ func (this *Instance) VlmDelete(name string) os.Error {
 }
 
 // VlmSetEnabled enables or disables the given media (VOD or broadcast).
-func (this *Instance) VlmSetEnabled(name string, toggle bool) os.Error {
+func (this *Instance) VlmSetEnabled(name string, toggle bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -406,7 +406,7 @@ func (this *Instance) VlmSetEnabled(name string, toggle bool) os.Error {
 }
 
 // VlmSetLoop enables or disables the given media's loop state (VOD or broadcast).
-func (this *Instance) VlmSetLoop(name string, toggle bool) os.Error {
+func (this *Instance) VlmSetLoop(name string, toggle bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -423,7 +423,7 @@ func (this *Instance) VlmSetLoop(name string, toggle bool) os.Error {
 }
 
 // VlmSetOutput sets the output for the given media (VOD or broadcast).
-func (this *Instance) VlmSetOutput(name, output string) os.Error {
+func (this *Instance) VlmSetOutput(name, output string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -438,7 +438,7 @@ func (this *Instance) VlmSetOutput(name, output string) os.Error {
 
 // VlmSetInput sets the input MRL for the given media (VOD or broadcast).
 // This will delete all existing inputs and add the specified one.
-func (this *Instance) VlmSetInput(name, input string) os.Error {
+func (this *Instance) VlmSetInput(name, input string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -452,7 +452,7 @@ func (this *Instance) VlmSetInput(name, input string) os.Error {
 }
 
 // VlmAddInput adds an input MRL for the given media (VOD or broadcast).
-func (this *Instance) VlmAddInput(name, input string) os.Error {
+func (this *Instance) VlmAddInput(name, input string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -466,7 +466,7 @@ func (this *Instance) VlmAddInput(name, input string) os.Error {
 }
 
 // VlmSetMux sets a media's VOD muxer.
-func (this *Instance) VlmSetMux(name, mux string) os.Error {
+func (this *Instance) VlmSetMux(name, mux string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -489,7 +489,7 @@ func (this *Instance) VlmSetMux(name, mux string) os.Error {
 //     enabled: Enable the new broadcast?
 //     loop: Should this broadcast be played in loop?
 //
-func (this *Instance) VlmChangeMedia(name, input, output string, options []string, enabled, loop bool) os.Error {
+func (this *Instance) VlmChangeMedia(name, input, output string, options []string, enabled, loop bool) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -527,7 +527,7 @@ func (this *Instance) VlmChangeMedia(name, input, output string, options []strin
 }
 
 // VlmPlay plays the named broadcast.
-func (this *Instance) VlmPlay(name string) os.Error {
+func (this *Instance) VlmPlay(name string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -539,7 +539,7 @@ func (this *Instance) VlmPlay(name string) os.Error {
 }
 
 // VlmStop halts playback of the named broadcast.
-func (this *Instance) VlmStop(name string) os.Error {
+func (this *Instance) VlmStop(name string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -551,7 +551,7 @@ func (this *Instance) VlmStop(name string) os.Error {
 }
 
 // VlmPause pauses playback of the named broadcast.
-func (this *Instance) VlmPause(name string) os.Error {
+func (this *Instance) VlmPause(name string) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -563,7 +563,7 @@ func (this *Instance) VlmPause(name string) os.Error {
 }
 
 // VlmSeek seeks in the named broadcast.
-func (this *Instance) VlmSeek(name string, percentage float32) os.Error {
+func (this *Instance) VlmSeek(name string, percentage float32) error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
@@ -577,7 +577,7 @@ func (this *Instance) VlmSeek(name string, percentage float32) os.Error {
 // VlmMediaInfo returns information about the named media as a JSON string.
 //
 // Note: This function is mainly intended for debugging use,
-func (this *Instance) VlmMediaInfo(name string) (s string, err os.Error) {
+func (this *Instance) VlmMediaInfo(name string) (s string, err error) {
 	if this.ptr == nil {
 		return "", os.EINVAL
 	}
@@ -596,7 +596,7 @@ func (this *Instance) VlmMediaInfo(name string) (s string, err os.Error) {
 }
 
 // VlmPosition returns the instance position by name or instance id.
-func (this *Instance) VlmPosition(name string, id int) (float32, os.Error) {
+func (this *Instance) VlmPosition(name string, id int) (float32, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -607,7 +607,7 @@ func (this *Instance) VlmPosition(name string, id int) (float32, os.Error) {
 }
 
 // VlmTime returns the instance time by name or instance id.
-func (this *Instance) VlmTime(name string, id int) (int, os.Error) {
+func (this *Instance) VlmTime(name string, id int) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -618,7 +618,7 @@ func (this *Instance) VlmTime(name string, id int) (int, os.Error) {
 }
 
 // VlmLength returns the instance length by name or instance id.
-func (this *Instance) VlmLength(name string, id int) (int, os.Error) {
+func (this *Instance) VlmLength(name string, id int) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -629,7 +629,7 @@ func (this *Instance) VlmLength(name string, id int) (int, os.Error) {
 }
 
 // VlmRate returns the instance playback rate by name or instance id.
-func (this *Instance) VlmRate(name string, id int) (int, os.Error) {
+func (this *Instance) VlmRate(name string, id int) (int, error) {
 	if this.ptr == nil {
 		return 0, os.EINVAL
 	}
@@ -640,7 +640,7 @@ func (this *Instance) VlmRate(name string, id int) (int, os.Error) {
 }
 
 // VlmEvents returns an event manager for a VLM instance.
-func (this *Instance) VlmEvents() (*EventManager, os.Error) {
+func (this *Instance) VlmEvents() (*EventManager, error) {
 	if this.ptr == nil {
 		return nil, os.EINVAL
 	}

@@ -23,7 +23,7 @@ func (this *Log) fromC(p *C.libvlc_log_t) {
 }
 
 // Close closes the log and releases resources associated with it.
-func (this *Log) Close() os.Error {
+func (this *Log) Close() error {
 	if this.ptr == nil {
 		return os.EINVAL
 	}
