@@ -52,7 +52,6 @@ func (this *TrackDescription) Id() int { return int(this.ptr.i_id) }
 // Name returns the track name.
 func (this *TrackDescription) Name() string { return C.GoString(this.ptr.psz_name) }
 
-
 // List of track descriptions.
 type TrackDescriptionList []*TrackDescription
 

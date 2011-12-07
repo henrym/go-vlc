@@ -9,10 +9,10 @@
 package main
 
 import (
-	"os"
 	"fmt"
-	"time"
 	vlc "github.com/jteeuwen/go-vlc"
+	"os"
+	"time"
 )
 
 // Some random streaming video found through google.

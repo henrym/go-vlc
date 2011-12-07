@@ -7,9 +7,9 @@ package vlc
 // #include "glue.h"
 import "C"
 import (
-	"unsafe"
 	"bytes"
 	"encoding/binary"
+	"unsafe"
 )
 
 // Generic event type. Use a switch on Event.Type to determine which method

@@ -5,9 +5,9 @@
 package vlc
 
 import (
-	"testing"
-	"os"
 	"fmt"
+	"os"
+	"testing"
 )
 
 func Test(t *testing.T) {

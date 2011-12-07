@@ -13,9 +13,9 @@ package vlc
 // }
 import "C"
 import (
-	"unsafe"
 	"os"
 	"sync"
+	"unsafe"
 )
 
 // A libvlc instance has an event manager which can be used to hook event callbacks,
