@@ -23,7 +23,5 @@
  USAGE
 ================================================================================
 
- $ goinstall github.com/jteeuwen/go-vlc
-
  The examples folder contains an example program demonstrating the use
  of this library.
