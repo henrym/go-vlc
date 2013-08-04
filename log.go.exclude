@@ -4,6 +4,13 @@
 
 package vlc
 
+
+// TODO(henrym): libvlc's logging APIs have changed. This file is out of date and no longer compiles
+//               with -Werror=deprecated-declarations
+
+
+
+
 // #include "glue.h"
 import "C"
 import (

@@ -34,16 +34,10 @@ func (this *TrackInfo) readU32_2() (uint32, uint32) {
 }
 
 // Description for video, audio tracks and subtitles.
+//
+// Release the list as a whole with TrackDescriptionList.Release
 type TrackDescription struct {
 	ptr *C.libvlc_track_description_t
-}
-
-// Release releases memory for this instance.
-func (this *TrackDescription) Release() {
-	if this.ptr != nil {
-		C.libvlc_track_description_release(this.ptr)
-		this.ptr = nil
-	}
 }
 
 // Id returns the track Id.
@@ -61,12 +55,10 @@ func (this *TrackDescriptionList) fromC(p *C.libvlc_track_description_t) {
 	}
 }
 
-// Release recursively releases memory for this list.
+// Release releases memory for this TrackDescriptionList.
 func (this *TrackDescriptionList) Release() {
-	if len(*this) == 0 {
-		return
+	if this.ptr != nil {
+		C.libvlc_track_description_list_release(this.ptr)
+		this.ptr = nil
 	}
-
-	(*this)[0].Release()
-	*this = nil
 }

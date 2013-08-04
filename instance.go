@@ -105,35 +105,37 @@ func (this *Instance) Wait() error {
 	return nil
 }
 
+// TODO(henrym): Log API has changed. Left here as a reminder to update to new libvlc log API
+//
 // LogVerbosity returns the VLC messaging verbosity level.
-func (this *Instance) LogVerbosity() uint {
-	if this.ptr == nil {
-		return 0
-	}
-	return uint(C.libvlc_get_log_verbosity(this.ptr))
-}
+//func (this *Instance) LogVerbosity() uint {
+//	if this.ptr == nil {
+//		return 0
+//	}
+//	return uint(C.libvlc_get_log_verbosity(this.ptr))
+//}
 
 // SetLogVerbosity sets the VLC messaging verbosity level.
-func (this *Instance) SetLogVerbosity(v uint) {
-	if this.ptr != nil {
-		C.libvlc_set_log_verbosity(this.ptr, C.uint(v))
-	}
-}
+//func (this *Instance) SetLogVerbosity(v uint) {
+//	if this.ptr != nil {
+//		C.libvlc_set_log_verbosity(this.ptr, C.uint(v))
+//	}
+//}
 
 // OpenLog opens a VLC message log instance.
-func (this *Instance) OpenLog() (*Log, error) {
-	if this.ptr == nil {
-		return nil, os.EINVAL
-	}
-
-	if c := C.libvlc_log_open(this.ptr); c != nil {
-		l := new(Log)
-		l.fromC(c)
-		return l, nil
-	}
-
-	return nil, checkError()
-}
+//func (this *Instance) OpenLog() (*Log, error) {
+//	if this.ptr == nil {
+//		return nil, os.EINVAL
+//	}
+//
+//	if c := C.libvlc_log_open(this.ptr); c != nil {
+//		l := new(Log)
+//		l.fromC(c)
+//		return l, nil
+//	}
+//
+//	return nil, checkError()
+//}
 
 // OpenMediaUri loads a media instance from the given uri.
 func (this *Instance) OpenMediaUri(uri string) (*Media, error) {
