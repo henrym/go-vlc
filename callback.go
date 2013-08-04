@@ -21,9 +21,7 @@ type eventData struct {
 type EventHandler func(evt *Event, userdata interface{})
 
 //export goEventCB
-func goEventCB(ep unsafe.Pointer, userdata unsafe.Pointer) {
-	e := (*C.libvlc_event_t)(ep)
-
+func goEventCB(e *C.libvlc_event_t, userdata unsafe.Pointer) {
 	evt := &Event{Type: EventType(e._type)}
 	evt.b.Write(e.u[:])
 

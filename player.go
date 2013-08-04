@@ -5,6 +5,11 @@
 package vlc
 
 // #include "glue.h"
+//
+// extern void* goLockCB(void*, void**);
+// extern void  goUnlockCB(void*, void*, void* const*); 
+// extern void  goDisplayCB(void*, void*);
+//
 // static void goSetCallbacks(libvlc_media_player_t* mp, void* userdata) {
 //    libvlc_video_set_callbacks(mp, goLockCB, goUnlockCB, goDisplayCB, userdata);
 // }

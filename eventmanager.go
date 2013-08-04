@@ -5,6 +5,9 @@
 package vlc
 
 // #include "glue.h"
+//
+// extern void goEventCB(const struct libvlc_event_t*, void*);
+//
 // static int goAttach(libvlc_event_manager_t* em, libvlc_event_type_t et, void* userdata) {
 //    return libvlc_event_attach(em, et, goEventCB, userdata);
 // }
