@@ -7,7 +7,6 @@ package vlc
 // #include "glue.h"
 import "C"
 import (
-	"os"
 	"unsafe"
 )
 
@@ -18,7 +17,7 @@ type Media struct {
 // Retain increments the reference count of this Media instance.
 func (this *Media) Retain() (err error) {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"Media is nil"}
 	}
 
 	C.libvlc_media_retain(this.ptr)
@@ -30,7 +29,7 @@ func (this *Media) Retain() (err error) {
 // If the media descriptor object has been released it should not be used again.
 func (this *Media) Release() (err error) {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"Media is nil"}
 	}
 
 	C.libvlc_media_release(this.ptr)
@@ -40,7 +39,7 @@ func (this *Media) Release() (err error) {
 // Duplicate duplicates the media object.
 func (this *Media) Duplicate() (*Media, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"Media is nil"}
 	}
 
 	if c := C.libvlc_media_duplicate(this.ptr); c != nil {
@@ -59,7 +58,7 @@ func (this *Media) Duplicate() (*Media, error) {
 // The options are detailed in vlc --full-help, for instance "--sout-all"
 func (this *Media) AddOption(options string) error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"Media is nil"}
 	}
 
 	c := C.CString(options)
@@ -78,7 +77,7 @@ func (this *Media) AddOption(options string) error {
 // The options are detailed in vlc --full-help, for instance "--sout-all"
 func (this *Media) AddOptionFlag(options string, flags uint32) error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"Media is nil"}
 	}
 
 	c := C.CString(options)
@@ -137,7 +136,7 @@ func (this *Media) SetMeta(mp MetaProperty, v string) {
 // SaveMeta saves the previously changed metadata.
 func (this *Media) SaveMeta() (err error) {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"Media is nil"}
 	}
 
 	if C.libvlc_media_save_meta(this.ptr) != 0 {
@@ -158,7 +157,7 @@ func (this *Media) State() MediaState {
 // Stats returns media statistics.
 func (this *Media) Stats() (*Stats, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"Media is nil"}
 	}
 
 	var c C.libvlc_media_stats_t
@@ -175,7 +174,7 @@ func (this *Media) Stats() (*Stats, error) {
 // decrement the reference count.
 func (this *Media) SubItems() (*MediaList, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"Media is nil"}
 	}
 
 	if c := C.libvlc_media_subitems(this.ptr); c != nil {
@@ -189,7 +188,7 @@ func (this *Media) SubItems() (*MediaList, error) {
 // Note: This method does not increment the media reference count.
 func (this *Media) Events() (*EventManager, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"Media is nil"}
 	}
 
 	if c := C.libvlc_media_event_manager(this.ptr); c != nil {
@@ -281,7 +280,7 @@ func (this *Media) SetUserData(v interface{}) {
 // parsing phase instead.
 func (this *Media) TrackInfo() ([]*TrackInfo, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"Media is nil"}
 	}
 
 	var c *C.libvlc_media_track_info_t
@@ -305,7 +304,7 @@ func (this *Media) TrackInfo() ([]*TrackInfo, error) {
 // really need it for something. It is not necessary to perform actual playback.
 func (this *Media) NewPlayer() (*Player, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"Media is nil"}
 	}
 
 	if c := C.libvlc_media_player_new_from_media(this.ptr); c != nil {

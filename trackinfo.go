@@ -55,10 +55,12 @@ func (this *TrackDescriptionList) fromC(p *C.libvlc_track_description_t) {
 	}
 }
 
+// FIXME(henrym): TrackDescription/List API has changed. Leave this commented out until this is fully implemented.
+
 // Release releases memory for this TrackDescriptionList.
-func (this *TrackDescriptionList) Release() {
-	if this.ptr != nil {
-		C.libvlc_track_description_list_release(this.ptr)
-		this.ptr = nil
-	}
-}
+//func (this *TrackDescriptionList) Release() {
+//	if this.ptr != nil {
+//		C.libvlc_track_description_list_release(this.ptr)
+//		this.ptr = nil
+//	}
+//}

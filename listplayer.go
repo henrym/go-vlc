@@ -6,9 +6,6 @@ package vlc
 
 // #include "glue.h"
 import "C"
-import (
-	"os"
-)
 
 // This player is meant for playlist playback.
 // This is basically a wrapper for vlc.Player that takes care of playlist rotation.
@@ -19,7 +16,7 @@ type ListPlayer struct {
 // Release decreases the reference count of the instance and destroys it when it reaches zero.
 func (this *ListPlayer) Release() (err error) {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_release(this.ptr)
@@ -29,7 +26,7 @@ func (this *ListPlayer) Release() (err error) {
 // Events returns an Eventmanager for this player.
 func (this *ListPlayer) Events() (*EventManager, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"ListPlayer is nil"}
 	}
 
 	if c := C.libvlc_media_list_player_event_manager(this.ptr); c != nil {
@@ -42,7 +39,7 @@ func (this *ListPlayer) Events() (*EventManager, error) {
 // Replace replaces the Player instance in this listplayer with a new one.
 func (this *ListPlayer) Replace(p *Player) error {
 	if this.ptr == nil || p.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_set_media_player(this.ptr, p.ptr)
@@ -52,7 +49,7 @@ func (this *ListPlayer) Replace(p *Player) error {
 // Set sets the MediaList associated with this player.
 func (this *ListPlayer) Set(l *MediaList) error {
 	if this.ptr == nil || l.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_set_media_list(this.ptr, l.ptr)
@@ -62,7 +59,7 @@ func (this *ListPlayer) Set(l *MediaList) error {
 // Play plays the entries in the media list.
 func (this *ListPlayer) Play() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_play(this.ptr)
@@ -72,7 +69,7 @@ func (this *ListPlayer) Play() error {
 // Pause pauses playback.
 func (this *ListPlayer) Pause() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_pause(this.ptr)
@@ -82,7 +79,7 @@ func (this *ListPlayer) Pause() error {
 // IsPlaying returns true if the player is currently playing.
 func (this *ListPlayer) IsPlaying() (bool, error) {
 	if this.ptr == nil {
-		return false, os.EINVAL
+		return false, &VLCError{"ListPlayer is nil"}
 	}
 	return C.libvlc_media_list_player_is_playing(this.ptr) != 0, checkError()
 }
@@ -90,7 +87,7 @@ func (this *ListPlayer) IsPlaying() (bool, error) {
 // State returns the current media state.
 func (this *ListPlayer) State() (MediaState, error) {
 	if this.ptr == nil {
-		return 0, os.EINVAL
+		return 0, &VLCError{"ListPlayer is nil"}
 	}
 	return MediaState(C.libvlc_media_list_player_get_state(this.ptr)), checkError()
 }
@@ -98,7 +95,7 @@ func (this *ListPlayer) State() (MediaState, error) {
 // PlayAt plays the entry at the given list index.
 func (this *ListPlayer) PlayAt(pos int) error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_play_item_at_index(this.ptr, C.int(pos))
@@ -109,8 +106,11 @@ func (this *ListPlayer) PlayAt(pos int) error {
 //
 // Note: The supplied Media must be part of this list.
 func (this *ListPlayer) PlayItem(m *Media) error {
-	if this.ptr == nil || m.ptr == nil {
-		return os.EINVAL
+	if this.ptr == nil {
+		return &VLCError{"ListPlayer is nil"}
+	}
+	if m.ptr == nil {
+		return &VLCError{"Media is nil"}
 	}
 
 	C.libvlc_media_list_player_play_item(this.ptr, m.ptr)
@@ -120,7 +120,7 @@ func (this *ListPlayer) PlayItem(m *Media) error {
 // Stop halts playback.
 func (this *ListPlayer) Stop() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_stop(this.ptr)
@@ -130,7 +130,7 @@ func (this *ListPlayer) Stop() error {
 // Next plays the next item in the list if applicable.
 func (this *ListPlayer) Next() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_next(this.ptr)
@@ -140,7 +140,7 @@ func (this *ListPlayer) Next() error {
 // Prev plays the previous item in the list if applicable.
 func (this *ListPlayer) Prev() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_previous(this.ptr)
@@ -151,7 +151,7 @@ func (this *ListPlayer) Prev() error {
 // Any of: PMDefault, PMLoop or PMRepeat.
 func (this *ListPlayer) SetMode(pm PlaybackMode) error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"ListPlayer is nil"}
 	}
 
 	C.libvlc_media_list_player_set_playback_mode(this.ptr, C.libvlc_playback_mode_t(pm))

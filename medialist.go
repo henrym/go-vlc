@@ -6,9 +6,6 @@ package vlc
 
 // #include "glue.h"
 import "C"
-import (
-	"os"
-)
 
 // Maintains a list of Media items.
 type MediaList struct {
@@ -18,7 +15,7 @@ type MediaList struct {
 // Retain increments the reference count of this MediaList instance.
 func (this *MediaList) Retain() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 
 	C.libvlc_media_list_retain(this.ptr)
@@ -29,7 +26,7 @@ func (this *MediaList) Retain() error {
 // reference counter for the Media instance this came from.
 func (this *MediaList) Release() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 
 	C.libvlc_media_list_release(this.ptr)
@@ -43,7 +40,7 @@ func (this *MediaList) Release() error {
 // Note: MediaList.Lock() should NOT be held upon entering this function.
 func (this *MediaList) Set(m *Media) error {
 	if this.ptr == nil || m.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 
 	C.libvlc_media_list_set_media(this.ptr, m.ptr)
@@ -56,7 +53,7 @@ func (this *MediaList) Set(m *Media) error {
 // Note: MediaList.Lock() should NOT be held upon entering this function.
 func (this *MediaList) Get() (*Media, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"MediaList is nil"}
 	}
 
 	if c := C.libvlc_media_list_media(this.ptr); c != nil {
@@ -71,7 +68,7 @@ func (this *MediaList) Get() (*Media, error) {
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
 func (this *MediaList) Add(m *Media) error {
 	if this.ptr == nil || m.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 
 	C.libvlc_media_list_add_media(this.ptr, m.ptr)
@@ -83,7 +80,7 @@ func (this *MediaList) Add(m *Media) error {
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
 func (this *MediaList) Insert(m *Media, pos int) error {
 	if this.ptr == nil || m.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 
 	C.libvlc_media_list_insert_media(this.ptr, m.ptr, C.int(pos))
@@ -95,7 +92,7 @@ func (this *MediaList) Insert(m *Media, pos int) error {
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
 func (this *MediaList) Remove(pos int) error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 
 	C.libvlc_media_list_remove_index(this.ptr, C.int(pos))
@@ -107,7 +104,7 @@ func (this *MediaList) Remove(pos int) error {
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
 func (this *MediaList) Count() (int, error) {
 	if this.ptr == nil {
-		return 0, os.EINVAL
+		return 0, &VLCError{"MediaList is nil"}
 	}
 
 	return int(C.libvlc_media_list_count(this.ptr)), checkError()
@@ -119,7 +116,7 @@ func (this *MediaList) Count() (int, error) {
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
 func (this *MediaList) At(pos int) (*Media, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"MediaList is nil"}
 	}
 
 	if c := C.libvlc_media_list_item_at_index(this.ptr, C.int(pos)); c != nil {
@@ -133,8 +130,11 @@ func (this *MediaList) At(pos int) (*Media, error) {
 //
 // Note: MediaList.Lock() SHOULD be held upon entering this function.
 func (this *MediaList) Index(m *Media) (int, error) {
-	if this.ptr == nil || m.ptr == nil {
-		return 0, os.EINVAL
+	if this.ptr == nil {
+		return 0, &VLCError{"MediaList is nil"}
+	}
+	if m.ptr == nil {
+		return 0, &VLCError{"Media is nil"}
 	}
 
 	return int(C.libvlc_media_list_index_of_item(this.ptr, m.ptr)), checkError()
@@ -143,7 +143,7 @@ func (this *MediaList) Index(m *Media) (int, error) {
 // IsReadOnly returns true if this list is readonly for a user.
 func (this *MediaList) IsReadOnly() (bool, error) {
 	if this.ptr == nil {
-		return false, os.EINVAL
+		return false, &VLCError{"MediaList is nil"}
 	}
 	return C.libvlc_media_list_is_readonly(this.ptr) == 0, checkError()
 }
@@ -151,7 +151,7 @@ func (this *MediaList) IsReadOnly() (bool, error) {
 // Lock gets a lock on the list items.
 func (this *MediaList) Lock() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 	C.libvlc_media_list_lock(this.ptr)
 	return checkError()
@@ -160,7 +160,7 @@ func (this *MediaList) Lock() error {
 // Unlock removes a lock on the list items.
 func (this *MediaList) Unlock() error {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"MediaList is nil"}
 	}
 	C.libvlc_media_list_unlock(this.ptr)
 	return checkError()
@@ -169,7 +169,7 @@ func (this *MediaList) Unlock() error {
 // Events returns an Eventmanager for this list.
 func (this *MediaList) Events() (*EventManager, error) {
 	if this.ptr == nil {
-		return nil, os.EINVAL
+		return nil, &VLCError{"MediaList is nil"}
 	}
 
 	if c := C.libvlc_media_list_event_manager(this.ptr); c != nil {

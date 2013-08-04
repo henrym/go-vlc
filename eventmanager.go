@@ -16,7 +16,6 @@ package vlc
 // }
 import "C"
 import (
-	"os"
 	"sync"
 	"unsafe"
 )
@@ -40,7 +39,7 @@ func NewEventManager(p *C.libvlc_event_manager_t) *EventManager {
 // we can use to detach the event at a later point.
 func (this *EventManager) Attach(et EventType, cb EventHandler, userdata interface{}) (id int, err error) {
 	if this.ptr == nil {
-		return 0, os.EINVAL
+		return 0, &VLCError{"EventManager is nil"}
 	}
 
 	id = this.getUniqId()
@@ -59,7 +58,7 @@ func (this *EventManager) Attach(et EventType, cb EventHandler, userdata interfa
 // Detach unregisters the given event id.
 func (this *EventManager) Detach(id int) (err error) {
 	if this.ptr == nil {
-		return os.EINVAL
+		return &VLCError{"EventManager is nil"}
 	}
 
 	var ed *eventData
@@ -68,7 +67,7 @@ func (this *EventManager) Detach(id int) (err error) {
 	this.m.Lock()
 	if ed, ok = this.events[id]; !ok {
 		this.m.Unlock()
-		return os.EINVAL
+		return &VLCError{"No event with that id"}
 	}
 
 	delete(this.events, id)
